@@ -1,0 +1,59 @@
+.inline-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .inline-form input,
+  .inline-form select {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    border: 1px solid #d1d1d1;
+    border-radius: 6px;
+    font-size: 15px;
+    background: #f9f9f9;
+    transition: border 0.3s ease;
+  }
+  
+  .inline-form input:focus,
+  .inline-form select:focus {
+    border-color: #4a90e2;
+    outline: none;
+    background: #ffffff;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+  }
+  
+  .inline-form .add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #4a90e2, #367bc9);
+    color: white;
+    border: none;
+    padding: 13px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+  }
+  
+  .inline-form .add-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(to right, #367bc9, #2b6ca3);
+    box-shadow: 0 4px 10px rgba(0, 85, 179, 0.4);
+  }
+  
+  .inline-form .add-btn i {
+    font-size: 18px;
+    margin-right: 6px;
+  }
+  
