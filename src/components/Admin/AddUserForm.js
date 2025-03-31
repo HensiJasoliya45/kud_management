@@ -1,7 +1,7 @@
 import React from "react";
-import "./UserForm.css";
+import "./AddUserForm.css";
 
-const UserForm = ({ newUser, handleChange, handleAddUser }) => {
+const AddUserForm = ({ newUser, handleChange, handleAddUser }) => {
   return (
     <form className="inline-form" onSubmit={handleAddUser}>
       <input type="text" name="name" value={newUser.name} onChange={handleChange} placeholder="Enter Name" required />
@@ -18,4 +18,4 @@ const UserForm = ({ newUser, handleChange, handleAddUser }) => {
   );
 };
 
-export default UserForm;
+export default AddUserForm;

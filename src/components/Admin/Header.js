@@ -13,7 +13,7 @@ const Header = () => {
             <p className="sub-text">જય સ્વામિનારાયણ - કુંડળધામ</p>
           </div>
         </div>
-        <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <button className="logout-btn"><i className="fas fa-sign-out-alt"></i> Logout</button>
       </div>
     </header>
   );

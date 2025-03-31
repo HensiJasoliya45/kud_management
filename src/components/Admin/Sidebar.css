@@ -22,7 +22,6 @@
     word-wrap: break-word;
 }
 
-/* Sidebar Items */
 .sidebar ul {
     list-style: none;
     padding: 0;
@@ -39,8 +38,10 @@
     width: 100%;
     
 }
+.menu-item a{
+    text-decoration: none;
+}
 
-/* Icon */
 .icon {
     display: flex;
     justify-content: center;
@@ -58,7 +59,7 @@
     background-color: #ced4da;
     transform: scale(1.1);
 }
-/* Popup Card */
+
 .popup-card {
     position: absolute;
     left: 105%; 
@@ -82,7 +83,6 @@
     transform: translateY(-50%) scale(1);
 }
 
-/* Popup Card Title */
 .popup-card-title {
     font-size: 15px;
     font-weight: 600;
@@ -93,7 +93,6 @@
     margin-bottom: 8px;
 }
 
-/* Popup Card List */
 .popup-card ul {
     list-style: none;
     padding: 0;
@@ -106,7 +105,6 @@
     transition: background 0.3s, transform 0.2s ease-in-out;
 }
 
-/* Link  */
 .popup-card a {
     text-decoration: none;
     color: #2c3e50;

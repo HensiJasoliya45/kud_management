@@ -13,13 +13,16 @@ const Sidebar = () => {
     <div className="sidebar">
       <h1>Departments</h1>
       <ul>
+      <li className="menu-item">
+      <Link to="/"><span className="icon">🏠</span></Link>
+      </li>
         <li className="menu-item" onClick={() => toggleMenu("Account")}>
           <span className="icon" >📊</span>
           {activeMenu === "Account" && (
             <div className="popup-card">
                  <div className="popup-card-title">Account</div>
               <ul>
-                <li><Link to="/">SILAK</Link></li>
+                <li><Link to="/accounts">SILAK</Link></li>
                 <li><Link to="/">Account 2</Link></li>
                 <li><Link to="/">Account 3</Link></li>
               </ul>
