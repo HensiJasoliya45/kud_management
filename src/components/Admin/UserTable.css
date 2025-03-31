@@ -1,61 +1,82 @@
 .user-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .user-table th {
-    background: #4a90e2;
-    color: white;
-    font-weight: bold;
-    padding: 14px;
-    text-align: center;
-    border: none;
-  }
-  
-  .user-table td {
-    padding: 12px;
-    border-bottom: 1px solid #e0e0e0;
-    text-align: center;
-    font-size: 15px;
-    color: #333;
-  }
-  
-  .user-table tr:hover {
-    background-color: rgba(74, 144, 226, 0.1);
-    transition: background 0.3s ease;
-  }
-  
-  .eye-icon {
-    cursor: pointer;
-    margin-left: 8px;
-    color: #007bff;
-    font-size: 16px;
-    transition: color 0.3s ease;
-  }
-  
-  .eye-icon:hover {
-    color: #0056b3;
-  }
-  
-  .edit-btn {
-    background: linear-gradient(to right, #4a90e2, #367bc9);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
-  }
-  
-  .edit-btn:hover {
-    transform: scale(1.05);
-    background: linear-gradient(to right, #367bc9, #2b6ca3);
-    box-shadow: 0 4px 10px rgba(0, 85, 179, 0.4);
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.user-table th,  
+.user-table td {  
+  padding: 12px;
+  text-align: center;
+  font-size: 15px;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.user-table th:nth-child(1),
+.user-table td:nth-child(1) {
+  width: 10%;
+}
+
+.user-table th:nth-child(2),
+.user-table td:nth-child(2) {
+  width: 20%;
+}
+
+.user-table th:nth-child(3),
+.user-table td:nth-child(3) {
+  width: 25%;
+}
+
+.user-table th:nth-child(4),
+.user-table td:nth-child(4) {
+  width: 20%;
+}
+
+.user-table th:nth-child(5),
+.user-table td:nth-child(5) {
+  width: 15%;
+}
+
+.user-table th {
+  background: #4a90e2;
+  color: white;
+  font-weight: bold;
+  border: none;
+}
+
+.user-table tr:hover {
+  background-color: rgba(74, 144, 226, 0.1);
+  transition: background 0.3s ease;
+}
+
+.eye-icon {
+  cursor: pointer;
+  margin-left: 8px;
+  color: #007bff;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.eye-icon:hover {
+  color: #0056b3;
+}
+
+.edit-btn {
+  background: linear-gradient(to right, #4a90e2, #367bc9);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.edit-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #367bc9, #2b6ca3);
+}
