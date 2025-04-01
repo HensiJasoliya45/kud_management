@@ -1,8 +1,8 @@
 import React from "react";
 import "./Header.css";
+import { Link } from "react-router-dom";
 
 const Header = () => {
-
   return (
     <header className="header">
       <div className="header-content">
@@ -13,7 +13,15 @@ const Header = () => {
             <p className="sub-text">જય સ્વામિનારાયણ - કુંડળધામ</p>
           </div>
         </div>
-        <button className="logout-btn"><i className="fas fa-sign-out-alt"></i> Logout</button>
+        
+        <div className="icon-logout-container">
+            <Link to="/">
+              <span className="icon-home">🏠</span>
+            </Link>
+          <button className="logout-btn">
+            <i className="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
       </div>
     </header>
   );

@@ -1,8 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import AdminDashbord from "./components/Admin/AdminDashbord";
+import AdminDashbord from "./components/Admin/AdminDashboard";
 import Login from "./components/Login/Login";
 import AccountSilak from "./components/Admin/AccountSilak";
+import AccountCreditDebit from "./components/Admin/AccountCreditDebit";
+
 import "./App.css" 
 
 function App() {
@@ -12,6 +14,7 @@ function App() {
             <Route path="/" element={<AdminDashbord />} />
             <Route path="/login" element={<Login />} />
             <Route path="/accounts" element={<AccountSilak />} />
+            <Route path="/account-credit-debit" element={<AccountCreditDebit />} />
           </Routes>
     </Router>
   );

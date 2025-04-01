@@ -1,8 +1,8 @@
 /* Sidebar */
 .sidebar {
-    width: 100px;
+    width: 50px;
     background: linear-gradient(to bottom, #4a90e2, #a6b7c9);
-    padding: 15px;
+    padding: 5px;
     min-height: 100vh;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: fixed;
@@ -11,21 +11,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 120px;
-}
-
-.sidebar h1 {
-    font-size: 18px;
-    text-align: center;
-    color: white;
-    margin-bottom: 10px;
-    word-wrap: break-word;
+    padding-top: 70px;
 }
 
 .sidebar ul {
     list-style: none;
     padding: 0;
-    width: 95%;
+    width: 100%;
 }
 
 .sidebar li {
@@ -38,16 +30,13 @@
     width: 100%;
     
 }
-.menu-item a{
-    text-decoration: none;
-}
 
 .icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background: #dee2e6;
     border-radius: 10px;
     font-size: 22px;
@@ -63,7 +52,7 @@
 .popup-card {
     position: absolute;
     left: 105%; 
-    top: 50%;
+    top: 130%;
     transform: translateY(-50%);
     background: #ffffff;
     color: #2c3e50;
@@ -83,6 +72,10 @@
     transform: translateY(-50%) scale(1);
 }
 
+.popup-card ul li {
+    width: 94%;
+  }
+  
 .popup-card-title {
     font-size: 15px;
     font-weight: 600;

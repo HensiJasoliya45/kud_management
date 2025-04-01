@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import Home from "./Home";
 import "./Admin.css";
 
-const AdminDashbord = () => {
+const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
@@ -19,4 +19,4 @@ const AdminDashbord = () => {
   );
 };
 
-export default AdminDashbord;
+export default AdminDashboard;
