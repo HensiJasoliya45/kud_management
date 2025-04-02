@@ -16,7 +16,6 @@ const AccountCreditDebit = () => {
   const [transactionType, setTransactionType] = useState("credit");
   const [activeTable, setActiveTable] = useState("TB");
 
-  // New state to handle adding a table name
   const [newTableName, setNewTableName] = useState("");
   const [isAddingTable, setIsAddingTable] = useState(false);
 

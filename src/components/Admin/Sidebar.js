@@ -20,7 +20,7 @@ const Sidebar = () => {
               <ul>
                 <li><Link to="/accounts">SILAK Tables</Link></li>
                 <li><Link to="/account-credit-debit">Credit & Debit Tables</Link></li>
-                <li><Link to="/">Account 3</Link></li>
+                <li><Link to="/account-cover">Account Cover</Link></li>
               </ul>
             </div>
           )}

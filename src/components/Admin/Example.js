@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import SummaryPopup from "./SummaryPopup";
+import SummaryPopup from "./SummaryPopup"; // Import the SummaryPopup component
 import "./Admin.css";
-import "./AccountSilak.css";
+import "./ex.css";
 
 const Example = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,23 +34,20 @@ const Example = () => {
       <div className="admin-container">
         <Sidebar />
         <div className="content">
-          <div className="button-container">
-            <button
-              className="summary-button"
-              onClick={() => setIsSummaryPopupOpen(true)}
-            >
-              Open Summary Table
-            </button>
-            <button className="action-button" onClick={handleOpenModal}>
-              Add New Table
-            </button>
-          </div>
+        <div className="button-container">
+  <button className="summary-button" onClick={() => setIsSummaryPopupOpen(true)}>
+    Open Summary Table
+  </button>
+  <button className="action-button" onClick={handleOpenModal}>
+    Add New Table
+  </button>
+</div>
 
-          <SummaryPopup
-            isOpen={isSummaryPopupOpen}
-            onClose={() => setIsSummaryPopupOpen(false)}
-          />
 
+          {/* Summary Popup */}
+          <SummaryPopup isOpen={isSummaryPopupOpen} onClose={() => setIsSummaryPopupOpen(false)} />
+
+          {/* Add Table Modal */}
           {isModalOpen && (
             <div className="custom-modal">
               <div className="custom-modal-content">
@@ -86,53 +83,43 @@ const Example = () => {
           <div className="silak-table-wrapper">
             <table className="notes-table">
               <thead>
-                <tr>
-                  <th></th>
-                </tr>
-                <tr>
-                  <th>નોટ</th>
-                </tr>
+                <tr><th></th></tr>
+                <tr><th>નોટ</th></tr>
               </thead>
               <tbody>
                 {notes.map((note, index) => (
-                  <tr key={index}>
-                    <td>{note}</td>
-                  </tr>
+                  <tr key={index}><td>{note}</td></tr>
                 ))}
-                <tr>
-                  <td></td>
-                </tr>
+                <tr><td></td></tr>
               </tbody>
             </table>
 
             {tables.map((table, index) => (
-              <table
-                key={index}
-                className={`account-table ${index % 2 === 0 ? "even-table" : "odd-table"}`}
-              >
-                <thead>
-                  <tr>
-                    <th colSpan="2">{table.tableName}</th>
-                  </tr>
-                  <tr>
-                    <th>નંગ</th>
-                    <th>રકમ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {notes.map((_, rowIndex) => (
-                    <tr key={rowIndex}>
-                      <td><input type="text" defaultValue="0" /></td>
-                      <td>0</td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td className="summary-row">{table.tableTotalName}</td>
-                    <td className="summary-row">₹0</td>
-                  </tr>
-                </tbody>
-              </table>
-            ))}
+  <table key={index} className={`account-table ${index % 2 === 0 ? "even-table" : "odd-table"}`}>
+    <thead>
+      <tr>
+        <th colSpan="2">{table.tableName}</th>
+      </tr>
+      <tr>
+        <th>નંગ</th>
+        <th>રકમ</th>
+      </tr>
+    </thead>
+    <tbody>
+      {notes.map((_, rowIndex) => (
+        <tr key={rowIndex}>
+          <td><input type="text" defaultValue="0" /></td>
+          <td>0</td>
+        </tr>
+      ))}
+      <tr>
+        <td className="summary-row ">{table.tableTotalName}</td>
+        <td className="summary-row">₹0</td>
+      </tr>
+    </tbody>
+  </table>
+))}
+
           </div>
         </div>
       </div>

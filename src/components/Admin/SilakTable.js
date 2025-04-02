@@ -46,6 +46,7 @@ const SilakTable = ({ data, handleCellChange }) => {
             ))}
           </tr>
         ))}
+       
       </tbody>
     </table>
   );

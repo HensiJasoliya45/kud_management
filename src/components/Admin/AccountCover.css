@@ -1,0 +1,68 @@
+.account-cover-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.account-cover-section {
+    flex: 1;
+    min-width: 400px;
+    padding: 15px;
+}
+
+.cover-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+.cover-table-header {
+    background-color:  #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.cover-table-header th {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.cover-table-heading-row {
+    background-color: #007bff ;
+    color: white;
+    font-size: 18px;
+}
+
+.cover-table-heading {
+    padding: 12px;
+    text-align: center;
+}
+
+.cover-table-row {
+    text-align: center;
+}
+
+.cover-table-cell {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.cover-table tbody tr:hover {
+    background-color: #dde8f5;
+}
+
+.cover-table-footer {
+    font-weight: bold;
+    background-color:  #007bff;
+    color: white; 
+    text-align: center;
+}
+
+.cover-table-footer td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
