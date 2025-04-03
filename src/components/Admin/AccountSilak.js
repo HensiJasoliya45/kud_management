@@ -1,16 +1,27 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import SummaryPopup from "./SummaryPopup";
 import "./Admin.css";
 import "./AccountSilak.css";
+import SilakSummaryTable from "./SilakSummaryTable";
 
-const Example = () => {
+const generateLightColor = () => {
+  const letters = '89ABCDEF'; 
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * letters.length)];
+  }
+  const r = parseInt(color.slice(1, 3), 16);
+  const g = parseInt(color.slice(3, 5), 16);
+  const b = parseInt(color.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, 0.5)`; 
+};
+
+const AccountSilak = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableName, setTableName] = useState("");
   const [tableTotalName, setTableTotalName] = useState("");
   const [tables, setTables] = useState([]);
-  const [isSummaryPopupOpen, setIsSummaryPopupOpen] = useState(false);
 
   const notes = ["2,000", "500", "200", "100", "50", "20", "10", "5", "2", "1"];
 
@@ -23,7 +34,15 @@ const Example = () => {
 
   const handleSaveTable = () => {
     if (tableName.trim() && tableTotalName.trim()) {
-      setTables([...tables, { tableName, tableTotalName }]);
+      const lightColor = generateLightColor();  
+      const table = {
+        tableName,
+        tableTotalName,
+        headerColor: lightColor,     
+        rowColor: lightColor,        
+        summaryRowColor: lightColor, 
+      };
+      setTables([...tables, table]);
     }
     handleCloseModal();
   };
@@ -34,23 +53,10 @@ const Example = () => {
       <div className="admin-container">
         <Sidebar />
         <div className="content">
-          <div className="button-container">
-            <button
-              className="summary-button"
-              onClick={() => setIsSummaryPopupOpen(true)}
-            >
-              Open Summary Table
-            </button>
-            <button className="action-button" onClick={handleOpenModal}>
-              Add New Table
-            </button>
-          </div>
-
-          <SummaryPopup
-            isOpen={isSummaryPopupOpen}
-            onClose={() => setIsSummaryPopupOpen(false)}
-          />
-
+          <SilakSummaryTable />
+          <button className="action-button" onClick={handleOpenModal}>
+            Add New Table
+          </button>
           {isModalOpen && (
             <div className="custom-modal">
               <div className="custom-modal-content">
@@ -108,9 +114,18 @@ const Example = () => {
             {tables.map((table, index) => (
               <table
                 key={index}
-                className={`account-table ${index % 2 === 0 ? "even-table" : "odd-table"}`}
+                className="account-table"
+                style={{
+                  backgroundColor: table.rowColor,  
+                  
+                }}
               >
-                <thead>
+                <thead
+                  style={{
+                    backgroundColor: table.headerColor,
+                    
+                  }}
+                >
                   <tr>
                     <th colSpan="2">{table.tableName}</th>
                   </tr>
@@ -127,8 +142,24 @@ const Example = () => {
                     </tr>
                   ))}
                   <tr>
-                    <td className="summary-row">{table.tableTotalName}</td>
-                    <td className="summary-row">₹0</td>
+                    <td
+                      className="summary-row"
+                      style={{
+                        backgroundColor: table.summaryRowColor,
+                        
+                      }}
+                    >
+                      {table.tableTotalName}
+                    </td>
+                    <td
+                      className="summary-row"
+                      style={{
+                        backgroundColor: table.summaryRowColor,
+                       
+                      }}
+                    >
+                      ₹0
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -140,4 +171,4 @@ const Example = () => {
   );
 };
 
-export default Example;
+export default AccountSilak;

@@ -1,72 +1,86 @@
 .summary-table-container {
+    width: 100%; 
+    overflow-x: auto;
+}
+
+.tables-row {
     display: flex;
-    flex-direction: row;
-    justify-content: center; 
-    align-items: flex-start;
-    gap: 20px; 
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    gap: 15px; 
+}
+
+.summary-table-container {
+    width: 100%; 
     overflow-x: auto; 
-    padding: 10px;
-    padding-top: 0;
-    margin-bottom: 5px;
+}
+
+.tables-row {
+    display: flex;
+    justify-content: flex-start; 
+    margin-bottom: 10px;
+    gap: 15px; 
 }
 
 .summary-table {
     border-collapse: collapse;
+    margin-bottom: 5px;
     text-align: center;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    table-layout: auto;
+}
+
+.summary-table th, .summary-table td {
+    padding: 11px; 
+    border: 1px solid whitesmoke;
+    font-size: 12px; 
+}
+.summary-table td{
+    font-size: 14px; 
 }
 
 .summary-table th {
+    background: linear-gradient(45deg, #007bff, #00c6ff); 
+    color: white;
     font-weight: bold;
-    padding: 10px;
-    border: 1px solid #ddd;
-    font-size: 14px;
+   
 }
+
 .summary-table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    color: #555;
-    font-size: 14px;
+    background-color: #c8e7f0;
+    color:black;
 }
 
 .small-table-1 {
-    width: 320px;
-}
-.small-table-1 th {
-    background-color: #d7ecfc; 
-}
-
-.small-table-1 tbody td:first-child {
-    color: red;
-    font-weight: bold;
+    width: 400px; 
+    margin-right: 0; 
+    table-layout: auto; 
+    text-transform: uppercase;
 }
 
-.small-table-1 th:last-child {
-    color: red;
-    font-weight: bold;
-}
 
 .small-table-2 {
-    width: 320px;
+    width: 360px; 
+    table-layout: fixed; 
 }
-.small-table-2 th {
-    background-color: #d8f3dc; 
+
+.small-table-2 th, .small-table-2 td {
+    width: 20%; 
 }
-.small-table-2 tbody tr {
-    background-color: #eefcf1; 
-}
-.small-table-2 tbody td:first-child, .normal-table tbody td:first-child {
-    font-weight: bold;
+
+.small-table-2 td {
+    font-size: 13px; 
 }
 
 .normal-table {
-    width: 220px;
-}
-.normal-table th {
-    background-color: #fff3cd;
-}
-.normal-table tbody tr {
-    background-color: #fff9e5; 
+    width: 700px;
+    table-layout: fixed; 
 }
 
+.normal-table th, .normal-table td {
+    width: 20%; 
+}
+
+.normal-table td {
+    font-size: 13px; 
+}

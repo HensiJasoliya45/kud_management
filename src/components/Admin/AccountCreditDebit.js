@@ -4,107 +4,56 @@ import Sidebar from "./Sidebar";
 import "./Admin.css";
 import "./AccountCreditDebit.css";
 
+const getRandomLightColor = () => {
+  const letters = "CDEF"; 
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * letters.length)];
+  }
+  return color;
+};
+
+const hexToRgba = (hex, opacity) => {
+  let r = parseInt(hex.substring(1, 3), 16);
+  let g = parseInt(hex.substring(3, 5), 16);
+  let b = parseInt(hex.substring(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+
+
 const AccountCreditDebit = () => {
-  const [tables, setTables] = useState([
-    { name: "TB", creditData: [], debitData: [], openingAmount: 0 },
-    { name: "AB", creditData: [], debitData: [], openingAmount: 0 },
-    { name: "SB", creditData: [], debitData: [], openingAmount: 0 },
-  ]);
+  const [tables, setTables] = useState([{ name: "AB", color: getRandomLightColor() }]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tableName, setTableName] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    vibhag: "",
+    rakam: "",
+    type: "Debit",
+    table: "",
+  });
 
-  const [newSection, setNewSection] = useState("");
-  const [newAmount, setNewAmount] = useState("");
-  const [transactionType, setTransactionType] = useState("credit");
-  const [activeTable, setActiveTable] = useState("TB");
-
-  const [newTableName, setNewTableName] = useState("");
-  const [isAddingTable, setIsAddingTable] = useState(false);
-
-  const formatNumber = (num) => new Intl.NumberFormat().format(num);
-
-  const handleAddTable = () => {
-    setIsAddingTable(true); 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setTableName("");
   };
 
-  const handleSaveNewTable = () => {
-    if (newTableName.trim()) {
-      const tableExists = tables.some((table) => table.name.toLowerCase() === newTableName.trim().toLowerCase());
-  
-      if (tableExists) {
-        alert("A table with this name already exists. Please choose a different name.");
-        return; 
-      }
-  
-      const newTable = {
-        name: newTableName.trim(),
-        creditData: [],
-        debitData: [],
-        openingAmount: 0,
-      };
-      setTables([...tables, newTable]);
-      setNewTableName(""); 
-      setIsAddingTable(false); 
-    } else {
-      alert("Please enter a valid table name.");
-    }
-  };
-  
-
-  const handleCancelAddTable = () => {
-    setNewTableName(""); 
-    setIsAddingTable(false); 
-  };
-
-  const handleAddData = () => {
-    if (newSection && newAmount) {
-      const amount = parseFloat(newAmount);
-      const updatedTables = tables.map((table) => {
-        if (table.name === activeTable) {
-          if (transactionType === "credit") {
-            table.creditData.push({ section: newSection, amount });
-          } else if (transactionType === "debit") {
-            table.debitData.push({ section: newSection, amount });
-          }
-        }
-        return table;
-      });
-      setTables(updatedTables);
-      setNewSection("");
-      setNewAmount("");
+  const addTable = () => {
+    if (tableName.trim() !== "") {
+      setTables([...tables, { name: tableName, color: getRandomLightColor() }]);
+      closeModal();
     }
   };
 
-  const handleEditData = (index, field, value, tableName, type) => {
-    const updatedTables = tables.map((table) => {
-      if (table.name === tableName) {
-        if (type === "credit") {
-          table.creditData[index] = { ...table.creditData[index], [field]: value };
-        } else if (type === "debit") {
-          table.debitData[index] = { ...table.debitData[index], [field]: value };
-        }
-      }
-      return table;
-    });
-    setTables(updatedTables);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const totalCredit = (data) => data.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
-  const totalDebit = (data) => data.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
-
-  const calculateClosingBalance = () => {
-    const table = tables.find((table) => table.name === activeTable);
-    const totalCred = totalCredit(table.creditData);
-    const totalDeb = totalDebit(table.debitData);
-    return totalCred + parseFloat(table.openingAmount || 0) - totalDeb;
-  };
-
-  const handleOpeningAmountChange = (value) => {
-    const updatedTables = tables.map((table) => {
-      if (table.name === activeTable) {
-        table.openingAmount = parseFloat(value) || 0;
-      }
-      return table;
-    });
-    setTables(updatedTables);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitted Data:", formData);
+    setShowForm(false);
   };
 
   return (
@@ -112,170 +61,121 @@ const AccountCreditDebit = () => {
       <Header />
       <div className="admin-container">
         <Sidebar />
-        <div className="content">
-          <div className="Account-credit-debit-container">
-            <div className="subheader">
-              {tables.map((table) => (
-                <span
-                  key={table.name}
-                  className={activeTable === table.name ? "active" : ""}
-                  onClick={() => setActiveTable(table.name)}
-                >
-                  {table.name}
-                </span>
-              ))}
-              <span className="add-table" onClick={handleAddTable}>
-                + Add Table
-              </span>
-            </div>
-
-            {/* Modal for adding a new table */}
-            {isAddingTable && (
-              <div className="modal-overlay show">
-                <div className="add-table-modal">
-               
-                  <h3>Add New Table</h3>
-                  <input
-                    type="text"
-                    placeholder="Enter Table Name"
-                    value={newTableName}
-                    onChange={(e) => setNewTableName(e.target.value)}
-                  />
-                  <button onClick={handleSaveNewTable} className="modal-button">Save</button>
-                  <button onClick={handleCancelAddTable} className="cancel-button">Cancel</button>
-                </div>
-              </div>
-            )}
+        <div className="content account-credit-debit-section">
+          <div className="button-container">
+            <button className="new-table-btn" onClick={openModal}>Add New Table</button>
+            <button className="new-table-btn" onClick={() => setShowForm(true)}>Add Data</button>
           </div>
 
-          <div className="inline-credit-debit-container">
-            <div className="inline-credit-debit-form">
-              <h3>Add {transactionType === "credit" ? "Credit" : "Debit"} Data</h3>
-              <select
-                value={transactionType}
-                onChange={(e) => setTransactionType(e.target.value)}
-              >
-                <option value="credit">Credit</option>
-                <option value="debit">Debit</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Section"
-                value={newSection}
-                onChange={(e) => setNewSection(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Amount"
-                value={newAmount}
-                onChange={(e) => setNewAmount(e.target.value)}
-              />
-              <button onClick={handleAddData}>
-                Add {transactionType === "credit" ? "Credit" : "Debit"}
-              </button>
-            </div>
-          </div>
-
-          <div className="credit-debit-table-section">
-            <div className="credit-debit-table-container">
-              {tables
-                .filter((table) => table.name === activeTable)
-                .map((table) => (
-                  <table className="account-credit-debit-table" key={table.name}>
-                    <thead>
-                      <tr>
-                        <th colSpan="4">{table.name}</th>
-                      </tr>
-                      <tr>
-                        <th colSpan="2">CREDIT</th>
-                        <th colSpan="2">DEBIT</th>
-                      </tr>
-                      <tr>
-                        <th>વિભાગ</th>
-                        <th>રકમ</th>
-                        <th>વિભાગ</th>
-                        <th>રકમ</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="credit-debit-opening-row">
-                        <td className="opening-cell">Opening</td>
-                        <td className="opening-cell">
-                          <input
-                            type="number"
-                            value={table.openingAmount}
-                            onChange={(e) => handleOpeningAmountChange(e.target.value)}
-                          />
-                        </td>
-                      </tr>
-
-                      {table.creditData.map((credit, index) => (
-                        <tr key={index}>
-                          <td>
-                            <input
-                              type="text"
-                              value={credit.section}
-                              onChange={(e) =>
-                                handleEditData(index, "section", e.target.value, table.name, "credit")
-                              }
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={credit.amount}
-                              onChange={(e) =>
-                                handleEditData(index, "amount", e.target.value, table.name, "credit")
-                              }
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              value={table.debitData[index]?.section || ""}
-                              onChange={(e) =>
-                                handleEditData(index, "section", e.target.value, table.name, "debit")
-                              }
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={table.debitData[index]?.amount || ""}
-                              onChange={(e) =>
-                                handleEditData(index, "amount", e.target.value, table.name, "debit")
-                              }
-                            />
-                          </td>
-                        </tr>
+          {showForm && (
+            <div className="form-modal-overlay">
+              <div className="form-modal-content">
+                <h3>Add Data</h3>
+                <form name="creditDebitDataAddForm" onSubmit={handleSubmit}>
+                  <label>
+                    <b>વિભાગ</b>
+                    <input type="text" name="vibhag" value={formData.vibhag} onChange={handleChange} required />
+                  </label>
+                  <label>
+                    <b>રકમ</b>
+                    <input type="number" name="rakam" value={formData.rakam} onChange={handleChange} required />
+                  </label>
+                  <label>
+                    <b>Type</b>
+                    <select name="type" value={formData.type} onChange={handleChange} required>
+                      <option value="">Select Type</option>
+                      <option value="Debit">Debit</option>
+                      <option value="Credit">Credit</option>
+                    </select>
+                  </label>
+                  <label>
+                    <b>Select Table</b>
+                    <select name="table" value={formData.table} onChange={handleChange} required>
+                      <option value="">Select Table</option>
+                      {tables.map((table, index) => (
+                        <option key={index} value={table.name}>{table.name}</option>
                       ))}
-
-                      <tr className="credit-debit-total-row">
-                        <td>Total</td>
-                        <td>₹{formatNumber(totalCredit(table.creditData) + parseFloat(table.openingAmount))}</td>
-                        <td>Total</td>
-                        <td>₹{formatNumber(totalDebit(table.debitData))}</td>
-                      </tr>
-                      <tr className="credit-debit-today-row">
-                        <td>TO DAY</td>
-                        <td>₹{formatNumber(totalCredit(table.creditData))}</td>
-                        <td>TO DAY</td>
-                        <td>₹{formatNumber(totalDebit(table.debitData))}</td>
-                      </tr>
-                      <tr className="credit-debit-closing-row">
-                        <td colSpan="2"></td>
-                        <td className="closing-cell">Closing</td>
-                        <td className="closing-cell">
-                        ₹{formatNumber(calculateClosingBalance())}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                ))}
+                    </select>
+                  </label>
+                  <div className="form-modal-buttons">
+                    <button type="submit" className="save-btn">Submit</button>
+                    <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>Cancel</button>
+                  </div>
+                </form>
+              </div>
             </div>
+          )}
+          <div className="table-container">
+            {tables.map((table, index) => (
+              <div key={index} className="table-wrapper">
+                <table className="credit-debit-table">
+                  <thead style={{ backgroundColor: hexToRgba(table.color, 1) }}>
+                    <tr className="table-title-row">
+                      <th colSpan="4">{table.name}</th>
+                    </tr>
+                    <tr>
+                      <th colSpan="2">CREDIT</th>
+                      <th colSpan="2">DEBIT</th>
+                    </tr>
+                    <tr>
+                      <th>વિભાગ</th>
+                      <th>રકમ</th>
+                      <th>વિભાગ</th>
+                      <th>રકમ</th>
+                    </tr>
+                  </thead>
+                  <tbody style={{ backgroundColor: hexToRgba(table.color, 0.5) }}>
+                    <tr>
+                      <td className="closing-summary-row">Opening</td>
+                      <td className="closing-summary-row">2</td>
+                      <td ></td>
+                      <td ></td>
+                    </tr>
+                    <tr>
+                      <td ></td>
+                      <td >15,000</td>
+                      <td></td>
+                      <td >8,000</td>
+                    </tr>
+                  </tbody>
+                  <tfoot style={{ backgroundColor: hexToRgba(table.color, 1) }}>
+                    <tr className="total-summary-row">
+                      <td>Total</td>
+                      <td>15,002</td>
+                      <td>Total</td>
+                      <td>8,000</td>
+                    </tr>
+                    <tr className="today-summary-row">
+                      <td>To Day</td>
+                      <td>15,000</td>
+                      <td>To Day</td>
+                      <td>8,000</td>
+                    </tr>
+                    <tr className="closing-summary-row">
+                      <td colSpan={2}></td>
+                      <td>Closing</td>
+                      <td>7,002</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Enter Table Name</h3>
+            <input type="text" placeholder="Table Name" value={tableName} onChange={(e) => setTableName(e.target.value)} />
+            <div className="modal-buttons">
+              <button onClick={addTable} className="save-btn">Save</button>
+              <button onClick={closeModal} className="cancel-btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

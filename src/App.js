@@ -5,9 +5,8 @@ import Login from "./components/Login/Login";
 import AccountSilak from "./components/Admin/AccountSilak";
 import AccountCreditDebit from "./components/Admin/AccountCreditDebit";
 import AccountCover from "./components/Admin/AccountCover";
-
 import "./App.css" 
-import Example from "./components/Admin/Example";
+
 
 function App() {
   return (
@@ -18,8 +17,7 @@ function App() {
             <Route path="/accounts" element={<AccountSilak />} />
             <Route path="/account-credit-debit" element={<AccountCreditDebit />} />
             <Route path="/account-cover" element={<AccountCover/>} />
-            <Route path="/e" element={<Example/>} />
-
+           
           </Routes>
     </Router>
   );

@@ -1,281 +1,232 @@
-.Account-credit-debit-container {
-  margin-bottom: 10px; 
-  margin-top: 10px;    
-}
-/* subheader for create table also navigate table */
-.subheader {
-  text-align: center;  
+.account-credit-debit-section {
+  padding: 20px;
   display: flex;
-  justify-content: center;  
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+ 
 }
 
-/* subheader's tables name */
-.subheader span {
-  cursor: pointer;
-  padding: 5px 10px; 
-  margin-right: 8px; 
-  border-radius: 5px;
-  background: #f0f0f0;
-  display: inline-block;  
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.subheader .active {
-  background: #007bff;
+.new-table-btn {
+  background-color: #007bff;
   color: white;
-  transform: scale(1.05);
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-/* Modal for add table */
+.new-table-btn:hover {
+  background-color: #0056b3;
+}
+
+.table-container {
+  display: flex;
+  padding-top: 50px;
+  z-index: -2;
+
+}
+.button-container {
+  position: fixed;
+  top: 96px;
+  right: 0; 
+  z-index: -1;
+  width: 95%;
+  display: flex;
+  gap: 10px;
+}
+
+
+.credit-debit-table {
+  width: 513px;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 14px;
+  background-color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: scroll;
+  
+}
+
+.credit-debit-table th,
+.credit-debit-table td {
+  border: 1px solid #333;
+  padding: 8px 10px;
+}
+
+.credit-debit-table thead th {
+  color: #333;
+}
+
+
+.table-title-row th {
+ 
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.total-summary-row,
+.today-summary-row {
+  font-weight: bold;
+}
+
+.closing-summary-row {
+  font-weight: bold;
+  color: black;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); 
-  display: none; 
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-overlay.show {
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.add-table-modal {
+.modal-content {
   background: white;
   padding: 20px;
   border-radius: 8px;
-  width: 300px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-.add-table-modal h3 {
   text-align: center;
-  margin-bottom: 20px;
+  width: 300px;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-.add-table-modal input {
+.modal-content h3 {
+  margin-bottom: 10px;
+}
+
+.modal-content input {
+  width: 95%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px; 
+  width: 100%;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.form-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.form-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 350px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.form-modal-content h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+}
+
+.form-modal-content label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.form-modal-content input
+ {
+  width: 95%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.form-modal-content select{
   width: 100%;
   padding: 8px;
-  margin-bottom: 15px;
+  margin-top: 5px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
-.modal-button, .cancel-button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+
+.form-modal-buttons button {
+  flex: 1;
+  padding: 10px 15px;
   font-size: 16px;
-  margin-top: 10px;
-}
-
-.modal-button {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.modal-button:hover {
-  background-color: #45a049;
-}
-
-.cancel-button {
-  background-color: #f44336; 
-  color: white;
-}
-
-.cancel-button:hover {
-  background-color: #e53935;
-}
-
-
-/* Credit/Debit table section */
-.credit-debit-table-section {
-  display: flex;
-  justify-content: center;
-}
-
-.credit-debit-table-container {
-  width: 80%;
-}
-
-.account-credit-debit-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px; 
-  table-layout: fixed;
-}
-
-.account-credit-debit-table th,
-.account-credit-debit-table td {
-  border: 1px solid #ddd;
-  padding: 8px; 
-  text-align: center;
-  word-wrap: break-word;
-  font-size: 14px;
-}
-
-.account-credit-debit-table th {
-  background-color: #4a90e2;
-  color: white;
-}
-
-.account-credit-debit-table th:nth-child(2),
-.account-credit-debit-table td:nth-child(2),
-.account-credit-debit-table th:nth-child(4),
-.account-credit-debit-table td:nth-child(4) {
-  width: 20%;  
-}
-
-.credit-debit-total-row,
-.credit-debit-today-row {
-  font-weight: bold;
-  background-color: #4a90e2;
-  color: white;
-}
-
-.credit-debit-closing-row td {
   border: none;
-}
-
-.closing-cell {
-  font-weight: bold;
-  background-color: rgb(108, 198, 108);
-  color: white;
-  text-align: center;
-  border: 1px solid #ddd !important;
-  width: 100%;
-}
-
-.credit-debit-opening-row {
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ddd;
-}
-
-.opening-cell {
-  background-color: rgb(108, 198, 108);
-  color: white;
-  font-weight: bold;
-  padding: 8px; 
-  text-align: left;
-  width: 100%;
-}
-
-.opening-cell input {
-  width: 100%;
-  padding: 6px; 
-  font-size: 14px; 
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  background-color: #fff;
-  color: #333;
-  text-align: center;
-  vertical-align: middle;
-  transition: border-color 0.3s ease;
-}
-
-.opening-cell input:focus {
-  border-color: #4CAF50;
-  outline: none;
-}
-
-.credit-debit-opening-row:hover {
-  background-color: #f1f1f1;
-}
-
-.inline-credit-debit-container {
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  padding: 15px; 
-}
-
-/* inline form for credit/debit card*/
-.inline-credit-debit-form {
-  display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-  padding: 8px 16px; 
-  width: auto;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.inline-credit-debit-form > * {
-  margin-right: 8px;
-}
-
-.inline-credit-debit-form h3 {
-  font-size: 16px; 
-  margin-right: 15px;
-  color: #333;
-  font-weight: 600;
-}
-
-.inline-credit-debit-form select,
-.inline-credit-debit-form input {
-  padding: 8px; 
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-  width: 160px; 
-}
-
-.inline-credit-debit-form select:focus,
-.inline-credit-debit-form input:focus {
-  border-color: #4a90e2;
-  outline: none;
-}
-
-.inline-credit-debit-form button {
-  padding: 10px 18px; 
-  background-color: #4a90e2;
-  color: white;
-  font-size: 14px; 
-  font-weight: 600;
-  border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.inline-credit-debit-form button:hover {
-  background-color: #357ab7;
-}
-
-
-.account-credit-debit-table td input[type="text"],
-.account-credit-debit-table td input[type="number"] {
-  width: 90%; 
-  padding: 6px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  color: #333;
+  transition: 0.3s;
   text-align: center;
-  transition: border-color 0.3s ease;
 }
 
-.account-credit-debit-table td input[type="text"]:focus,
-.account-credit-debit-table td input[type="number"]:focus {
-  border-color: #4a90e2;
-  outline: none;
+.save-btn {
+  background: #28a745;
+  color: white;
 }
 
-.account-credit-debit-table tr:hover input {
-  background-color: #f1f1f1;
+.cancel-btn {
+  background: #dc3545;
+  color: white;
 }
+
+.save-btn:hover {
+  background: #218838;
+}
+
+.cancel-btn:hover {
+  background: #c82333;
+}
+
+.form-modal-buttons {
+  display: flex;
+  gap: 10px;  
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+

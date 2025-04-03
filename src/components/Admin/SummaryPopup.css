@@ -16,7 +16,7 @@
     padding: 50px;
     border-radius: 12px;
     width: 85%;
-    max-width: 1100px;
+    max-width: 1200px;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -41,12 +41,16 @@
 
 .new-summary-table-container {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
     gap: 12px;
-    flex-wrap: nowrap;
-    width: 100%;
+    flex-wrap: nowrap; 
+    width: 100%; 
     padding: 20px;
+    margin: 0 auto;
+    background-color: rgb(226, 218, 218);
+    overflow: scroll;
+    height: 220px; 
+   
 }
 
 .new-summary-table {
@@ -55,41 +59,24 @@
     background: white;
     text-align: center;
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
     height: 200px; 
-    min-width: 360px; 
-    overflow: auto; 
+    min-width: 200px; 
+   
 }
-
 
 .new-summary-table th,
 .new-summary-table td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
     transition: background 0.3s ease;
 }
 
 
 .new-summary-table tr:hover {
     background: rgba(0, 0, 0, 0.05);
-}
-
-.new-small-table-1,
-.new-small-table-2 {
-    width: 360px; 
-    flex-shrink: 0;
-    height: 200px; 
-    min-width: 360px; 
-}
-
-.new-normal-table {
-    min-width: 360px;
-    width: 100%;
-    height: 200px; 
-    overflow: auto; 
 }
 
 .new-small-table-1 th,

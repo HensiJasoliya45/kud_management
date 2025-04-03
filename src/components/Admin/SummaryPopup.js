@@ -13,6 +13,7 @@ const CustomSummaryPopup = ({ isOpen, onClose }) => {
         </span>
 
         <div className="new-summary-table-container">
+          
           <table className="new-summary-table new-small-table-1">
             <thead>
               <tr>
@@ -107,6 +108,7 @@ const CustomSummaryPopup = ({ isOpen, onClose }) => {
               
             </tbody>
           </table>
+
         </div>
       </div>
     </div>

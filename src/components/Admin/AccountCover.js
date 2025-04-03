@@ -12,7 +12,7 @@ const AccountCover = () => {
       <div className="admin-container">
         <Sidebar />
         <div className="content">
-          <div className="account-cover-wrapper">
+          <div className="account-cover-wrapper">+
             <div className="account-cover-section left-cover-section">
               <table className="cover-table">
                 <thead>
