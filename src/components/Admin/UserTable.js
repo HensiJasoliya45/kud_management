@@ -41,7 +41,7 @@ const UserTable = ({ users, onUpdateUser }) => {
               <td>
                 {showPasswords[user.id] ? user.password : "••••••"}
                 <span className="eye-icon" onClick={() => togglePasswordVisibility(user.id)}>
-                  <i className={showPasswords[user.id] ? "fas fa-eye-slash" : "fas fa-eye"}></i>
+                  <i className={showPasswords[user.id] ? "fas fa-eye"  :"fas fa-eye-slash"}></i>
                 </span>
               </td>
               <td>

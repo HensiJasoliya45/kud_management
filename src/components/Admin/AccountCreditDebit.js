@@ -5,7 +5,7 @@ import "./Admin.css";
 import "./AccountCreditDebit.css";
 
 const getRandomLightColor = () => {
-  const letters = "CDEF"; 
+  const letters = "89ABCDEF";
   let color = "#";
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * letters.length)];
@@ -14,24 +14,27 @@ const getRandomLightColor = () => {
 };
 
 const hexToRgba = (hex, opacity) => {
-  let r = parseInt(hex.substring(1, 3), 16);
-  let g = parseInt(hex.substring(3, 5), 16);
-  let b = parseInt(hex.substring(5, 7), 16);
+  const r = parseInt(hex.substring(1, 3), 16);
+  const g = parseInt(hex.substring(3, 5), 16);
+  const b = parseInt(hex.substring(5, 7), 16);
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 
-
 const AccountCreditDebit = () => {
-  const [tables, setTables] = useState([{ name: "AB", color: getRandomLightColor() }]);
+  const [tables, setTables] = useState([
+    {
+      name: "AB",
+      color: getRandomLightColor(),
+      rows: [
+        ["Opening", 2, "", ""],
+        ["", 15000, "", 8000],
+      ],
+    },
+  ]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableName, setTableName] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    vibhag: "",
-    rakam: "",
-    type: "Debit",
-    table: "",
-  });
+  const [rowAddOpenState, setRowAddOpenState] = useState({});
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -41,19 +44,47 @@ const AccountCreditDebit = () => {
 
   const addTable = () => {
     if (tableName.trim() !== "") {
-      setTables([...tables, { name: tableName, color: getRandomLightColor() }]);
+      setTables([
+        ...tables,
+        {
+          name: tableName,
+          color: getRandomLightColor(),
+          rows: [
+            ["Opening", 0, "", ""],
+            ["", 0, "", 0],
+          ],
+        },
+      ]);
       closeModal();
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleCellChange = (tableIndex, rowIndex, columnIndex, value) => {
+    const updatedTables = [...tables];
+    updatedTables[tableIndex].rows[rowIndex][columnIndex] = value;
+    setTables(updatedTables);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Submitted Data:", formData);
-    setShowForm(false);
+  const calculateTotal = (table, columnIndex) => {
+    return table.rows.reduce(
+      (acc, row) => acc + (parseFloat(row[columnIndex]) || 0),
+      0
+    );
+  };
+
+  const addNewRow = (tableIndex) => {
+    const newRow = ["", 0, "", 0];
+    const updatedTables = [...tables];
+    updatedTables[tableIndex].rows.push(newRow);
+    setTables(updatedTables);
+    toggleRowAddState(tableIndex);
+  };
+
+  const toggleRowAddState = (tableIndex) => {
+    setRowAddOpenState((prevState) => ({
+      ...prevState,
+      [tableIndex]: !prevState[tableIndex],
+    }));
   };
 
   return (
@@ -62,105 +93,94 @@ const AccountCreditDebit = () => {
       <div className="admin-container">
         <Sidebar />
         <div className="content account-credit-debit-section">
-          <div className="button-container">
-            <button className="new-table-btn" onClick={openModal}>Add New Table</button>
-            <button className="new-table-btn" onClick={() => setShowForm(true)}>Add Data</button>
-          </div>
+          <button className="new-table-btn" onClick={openModal}>
+            Add Table
+          </button>
 
-          {showForm && (
-            <div className="form-modal-overlay">
-              <div className="form-modal-content">
-                <h3>Add Data</h3>
-                <form name="creditDebitDataAddForm" onSubmit={handleSubmit}>
-                  <label>
-                    <b>વિભાગ</b>
-                    <input type="text" name="vibhag" value={formData.vibhag} onChange={handleChange} required />
-                  </label>
-                  <label>
-                    <b>રકમ</b>
-                    <input type="number" name="rakam" value={formData.rakam} onChange={handleChange} required />
-                  </label>
-                  <label>
-                    <b>Type</b>
-                    <select name="type" value={formData.type} onChange={handleChange} required>
-                      <option value="">Select Type</option>
-                      <option value="Debit">Debit</option>
-                      <option value="Credit">Credit</option>
-                    </select>
-                  </label>
-                  <label>
-                    <b>Select Table</b>
-                    <select name="table" value={formData.table} onChange={handleChange} required>
-                      <option value="">Select Table</option>
-                      {tables.map((table, index) => (
-                        <option key={index} value={table.name}>{table.name}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <div className="form-modal-buttons">
-                    <button type="submit" className="save-btn">Submit</button>
-                    <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>Cancel</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          )}
           <div className="table-container">
-            {tables.map((table, index) => (
-              <div key={index} className="table-wrapper">
+            {tables.map((table, tableIndex) => (
+              <div key={tableIndex} className="table-wrapper">
                 <table className="credit-debit-table">
-                  <thead style={{ backgroundColor: hexToRgba(table.color, 1) }}>
-                    <tr className="table-title-row">
-                      <th colSpan="4">{table.name}</th>
+                  <thead style={{ backgroundColor: hexToRgba(table.color, 0.8) }}>
+                    <tr>
+                      <th colSpan="4">{table.name}(80)</th>
                     </tr>
                     <tr>
-                      <th colSpan="2">CREDIT</th>
-                      <th colSpan="2">DEBIT</th>
-                    </tr>
-                    <tr>
-                      <th>વિભાગ</th>
+                      <th>જમા નોંધ</th>
                       <th>રકમ</th>
-                      <th>વિભાગ</th>
+                      <th>ઉધાર નોંધ</th>
                       <th>રકમ</th>
                     </tr>
                   </thead>
                   <tbody style={{ backgroundColor: hexToRgba(table.color, 0.5) }}>
-                    <tr>
-                      <td className="closing-summary-row">Opening</td>
-                      <td className="closing-summary-row">2</td>
-                      <td ></td>
-                      <td ></td>
-                    </tr>
-                    <tr>
-                      <td ></td>
-                      <td >15,000</td>
-                      <td></td>
-                      <td >8,000</td>
-                    </tr>
+                    {table.rows.map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {row.map((cell, colIndex) => (
+                          <td
+                            key={colIndex}
+                            className={colIndex === 0 ? "opening-row" : ""}
+                          >
+                            <div className="cell-wrapper">
+                              {rowIndex === 0 && colIndex === 0 ? (
+                                <span>Opening</span>
+                              ) : (
+                                <input
+                                  type="text"
+                                  value={cell}
+                                  onChange={(e) =>
+                                    handleCellChange(
+                                      tableIndex,
+                                      rowIndex,
+                                      colIndex,
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              )}
+
+                              {rowIndex === table.rows.length - 1 &&
+                                colIndex === row.length - 1 && (
+                                  <span
+                                    className="table-add-open"
+                                    onClick={() => toggleRowAddState(tableIndex)}
+                                  >
+                                    <i className="fas fa-chevron-right row-icon-right"></i>
+                                  </span>
+                                )}
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
                   </tbody>
-                  <tfoot style={{ backgroundColor: hexToRgba(table.color, 1) }}>
-                    <tr className="total-summary-row">
-                      <td>Total</td>
-                      <td>15,002</td>
-                      <td>Total</td>
-                      <td>8,000</td>
-                    </tr>
-                    <tr className="today-summary-row">
-                      <td>To Day</td>
-                      <td>15,000</td>
-                      <td>To Day</td>
-                      <td>8,000</td>
-                    </tr>
-                    <tr className="closing-summary-row">
-                      <td colSpan={2}></td>
-                      <td>Closing</td>
-                      <td>7,002</td>
+                  <tfoot style={{ backgroundColor: hexToRgba(table.color, 0.8) }}>
+                    <tr>
+                      <th>Total</th>
+                      <th>{calculateTotal(table, 1)}</th>
+                      <th>Total</th>
+                      <th>{calculateTotal(table, 3)}</th>
                     </tr>
                   </tfoot>
                 </table>
               </div>
             ))}
           </div>
+
+          {/* Add Row Button */}
+          {Object.keys(rowAddOpenState).map((tableIndex) => {
+            if (rowAddOpenState[tableIndex]) {
+              return (
+                <button
+                  key={tableIndex}
+                  onClick={() => addNewRow(parseInt(tableIndex))}
+                  className="add-row-btn"
+                >
+                  <span className="plus-icon">+</span>
+                </button>
+              );
+            }
+            return null;
+          })}
         </div>
       </div>
 
@@ -168,10 +188,19 @@ const AccountCreditDebit = () => {
         <div className="modal-overlay">
           <div className="modal-content">
             <h3>Enter Table Name</h3>
-            <input type="text" placeholder="Table Name" value={tableName} onChange={(e) => setTableName(e.target.value)} />
+            <input
+              type="text"
+              placeholder="Table Name"
+              value={tableName}
+              onChange={(e) => setTableName(e.target.value)}
+            />
             <div className="modal-buttons">
-              <button onClick={addTable} className="save-btn">Save</button>
-              <button onClick={closeModal} className="cancel-btn">Cancel</button>
+              <button onClick={addTable} className="save-btn">
+                Save
+              </button>
+              <button onClick={closeModal} className="cancel-btn">
+                Cancel
+              </button>
             </div>
           </div>
         </div>

@@ -6,22 +6,23 @@ import "./AccountSilak.css";
 import SilakSummaryTable from "./SilakSummaryTable";
 
 const generateLightColor = () => {
-  const letters = '89ABCDEF'; 
-  let color = '#';
+  const letters = "89ABCDEF";
+  let color = "#";
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * letters.length)];
   }
   const r = parseInt(color.slice(1, 3), 16);
   const g = parseInt(color.slice(3, 5), 16);
   const b = parseInt(color.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, 0.5)`; 
+  return `rgba(${r}, ${g}, ${b}, 0.5)`;
 };
 
 const AccountSilak = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableName, setTableName] = useState("");
-  const [tableTotalName, setTableTotalName] = useState("");
   const [tables, setTables] = useState([]);
+  const [cardVisible, setCardVisible] = useState({ tableIndex: null, rowIndex: null });
+  const [nangs, setNangs] = useState([]); 
 
   const notes = ["2,000", "500", "200", "100", "50", "20", "10", "5", "2", "1"];
 
@@ -29,22 +30,41 @@ const AccountSilak = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setTableName("");
-    setTableTotalName("");
   };
 
   const handleSaveTable = () => {
-    if (tableName.trim() && tableTotalName.trim()) {
-      const lightColor = generateLightColor();  
+    if (tableName.trim()) {
+      const lightColor = generateLightColor();
       const table = {
         tableName,
-        tableTotalName,
-        headerColor: lightColor,     
-        rowColor: lightColor,        
-        summaryRowColor: lightColor, 
+        tableTotalName: tableName,
+        headerColor: lightColor,
+        rowColor: lightColor,
+        summaryRowColor: lightColor,
       };
       setTables([...tables, table]);
+
+
+      setNangs([...nangs, Array(notes.length).fill(0)]);
     }
     handleCloseModal();
+  };
+
+  const handleNungChange = (tableIndex, rowIndex, value) => {
+    const updatedNangs = [...nangs];
+    updatedNangs[tableIndex][rowIndex] = value;
+    setNangs(updatedNangs);
+  };
+
+  const handleIconClick = (tableIndex, rowIndex) => {
+    if (
+      cardVisible.tableIndex === tableIndex &&
+      cardVisible.rowIndex === rowIndex
+    ) {
+      setCardVisible({ tableIndex: null, rowIndex: null });
+    } else {
+      setCardVisible({ tableIndex, rowIndex });
+    }
   };
 
   return (
@@ -54,9 +74,11 @@ const AccountSilak = () => {
         <Sidebar />
         <div className="content">
           <SilakSummaryTable />
+
           <button className="action-button" onClick={handleOpenModal}>
-            Add New Table
+            Add Table
           </button>
+
           {isModalOpen && (
             <div className="custom-modal">
               <div className="custom-modal-content">
@@ -68,14 +90,6 @@ const AccountSilak = () => {
                   value={tableName}
                   onChange={(e) => setTableName(e.target.value)}
                   placeholder="Enter table name"
-                />
-                <label htmlFor="custom-table-total-name">Table Total Name:</label>
-                <input
-                  type="text"
-                  id="custom-table-total-name"
-                  value={tableTotalName}
-                  onChange={(e) => setTableTotalName(e.target.value)}
-                  placeholder="Enter table total name"
                 />
                 <div className="custom-modal-buttons">
                   <button className="custom-save-button" onClick={handleSaveTable}>
@@ -105,63 +119,75 @@ const AccountSilak = () => {
                     <td>{note}</td>
                   </tr>
                 ))}
-                <tr>
-                  <td></td>
-                </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td>Total</td>
+                </tr>
+              </tfoot>
             </table>
 
-            {tables.map((table, index) => (
+            {tables.map((table, tableIndex) => (
               <table
-                key={index}
+                key={tableIndex}
                 className="account-table"
-                style={{
-                  backgroundColor: table.rowColor,  
-                  
-                }}
+                style={{ backgroundColor: table.rowColor }}
               >
-                <thead
-                  style={{
-                    backgroundColor: table.headerColor,
-                    
-                  }}
-                >
+                <thead style={{ backgroundColor: table.headerColor }}>
                   <tr>
                     <th colSpan="2">{table.tableName}</th>
                   </tr>
                   <tr>
-                    <th>નંગ</th>
                     <th>રકમ</th>
+                    <th>નંગ</th>
                   </tr>
                 </thead>
                 <tbody>
                   {notes.map((_, rowIndex) => (
                     <tr key={rowIndex}>
-                      <td><input type="text" defaultValue="0" /></td>
                       <td>0</td>
+                      <td className="icon-container">
+                        <input
+                          type="number"
+                          className="nung-input"
+                          value={nangs?.[tableIndex]?.[rowIndex] || ""}
+                          onChange={(e) =>
+                            handleNungChange(tableIndex, rowIndex, e.target.value)
+                          }
+                        />
+                        <i
+                          className="fas fa-chevron-right icon-right"
+                          onClick={() => handleIconClick(tableIndex, rowIndex)}
+                        ></i>
+
+                        {cardVisible.tableIndex === tableIndex &&
+                          cardVisible.rowIndex === rowIndex && (
+                            <div className="small-card">
+                              <div className="samll-card-nung-input">
+                                <button>-</button>
+                                <input type="number" />
+                              </div>
+                              <div className="small-card-history">
+                                <span className="history-title">H</span> - 5 + 6 - 5
+                              </div>
+                            </div>
+                          )}
+                      </td>
                     </tr>
                   ))}
+                </tbody>
+                <tfoot>
                   <tr>
                     <td
                       className="summary-row"
-                      style={{
-                        backgroundColor: table.summaryRowColor,
-                        
-                      }}
-                    >
-                      {table.tableTotalName}
-                    </td>
+                      style={{ backgroundColor: table.summaryRowColor }}
+                    ></td>
                     <td
                       className="summary-row"
-                      style={{
-                        backgroundColor: table.summaryRowColor,
-                       
-                      }}
-                    >
-                      ₹0
-                    </td>
+                      style={{ backgroundColor: table.summaryRowColor }}
+                    ></td>
                   </tr>
-                </tbody>
+                </tfoot>
               </table>
             ))}
           </div>

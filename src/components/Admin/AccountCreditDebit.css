@@ -9,11 +9,12 @@
 .new-table-btn {
   background-color: #007bff;
   color: white;
-  padding: 8px 15px;
+  padding: 7px 13px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  
 }
 
 .new-table-btn:hover {
@@ -22,59 +23,67 @@
 
 .table-container {
   display: flex;
-  padding-top: 50px;
-  z-index: -2;
-
+  padding-top: 10px;
+  
 }
-.button-container {
-  position: fixed;
-  top: 96px;
-  right: 0; 
-  z-index: -1;
-  width: 95%;
-  display: flex;
-  gap: 10px;
-}
-
 
 .credit-debit-table {
-  width: 513px;
+  width: 360px;
   border-collapse: collapse;
   text-align: center;
   font-size: 14px;
   background-color: white;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  overflow: scroll;
+  overflow-x: auto;
   
 }
 
 .credit-debit-table th,
 .credit-debit-table td {
-  border: 1px solid #333;
-  padding: 8px 10px;
+  border: 1px solid whitesmoke;
+  padding: 4px;
 }
 
 .credit-debit-table thead th {
   color: #333;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
+.credit-debit-table tfoot th {
+  color: #333;
+}
 
-.table-title-row th {
- 
-  font-size: 16px;
+.opening-row{
   font-weight: bold;
+  color: #333;
 }
 
-.total-summary-row,
-.today-summary-row {
-  font-weight: bold;
+.credit-debit-table input[type="text"] {
+  width: 100%;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.closing-summary-row {
-  font-weight: bold;
-  color: black;
+.credit-debit-table input[type="text"]:focus {
+  border-color:  #83b4e9;
+  background-color: #fff;
+  box-shadow: 0 0 5px #83b4e9; 
+  outline: none; 
 }
+
+.credit-debit-table td input:focus {
+  background-color: #fff;
+  color: #333; 
+}
+
 
 .modal-overlay {
   position: fixed;
@@ -126,74 +135,6 @@
   text-align: center;
 }
 
-.form-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.form-modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 350px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  position: relative;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.form-modal-content h3 {
-  margin-bottom: 15px;
-  font-size: 20px;
-  color: #333;
-}
-
-.form-modal-content label {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: 500;
-  text-align: left;
-}
-
-.form-modal-content input
- {
-  width: 95%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-.form-modal-content select{
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-
-.form-modal-buttons button {
-  flex: 1;
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-  text-align: center;
-}
-
 .save-btn {
   background: #28a745;
   color: white;
@@ -212,11 +153,6 @@
   background: #c82333;
 }
 
-.form-modal-buttons {
-  display: flex;
-  gap: 10px;  
-  width: 100%;
-}
 
 @keyframes fadeIn {
   from {
@@ -229,4 +165,55 @@
   }
 }
 
+/* > icon stye */
+.credit-debit-table td:last-child {
+  padding-right: 10px; 
+}
+
+.row-icon-right{
+  margin-right: -10px;
+  margin-top: 3px;
+}
+
+.cell-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.table-add-open {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.table-add-open:hover {
+  transform: scale(1.1);
+}
+
+/* correct alignment */
+.add-row-btn {
+  position: absolute;
+  top: 225px;
+  left: 440px;
+  width: 25px;           
+  height: 25px;
+  background-color: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;        
+  padding: 0;             
+}
+
+.add-row-btn .plus-icon {
+  margin: 0;              
+}
 

@@ -36,39 +36,140 @@
   height: 18px; 
   vertical-align: middle;
 }
-.notes-table th,
-.notes-table td{
-  border: 1px solid rgb(187, 186, 186);
-}
-
 
 .account-table thead {
   background-color: #007bff;
   font-size: 14px;
-   color: #333;
+  color: #333;
   font-weight: bold;
 }
 
-.notes-table thead {
+.nung-input {
+  width: 60%;
+  font-size: 14px;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.nung-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+  background-color: #fff;
+}
+
+.icon-container {
+  position: relative;
+}
+
+.icon-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 8px;
+  cursor: pointer;
+  background-color: rgb(223, 223, 248);
+  color: black; 
+  padding: 5px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.small-card {
+  position: absolute;
+  top: 0;
+  left: 105%;
+  background-color: white;
+  padding: 6px;
+  border: 1px solid #ccc;
+  width: 105px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+
+
+  animation: slideIn 0.75s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+@keyframes slideIn {
+  0% {
+    left: 110%; 
+    opacity: 0;
+  }
+  100% {
+    left: 105%; 
+    opacity: 1;
+  }
+}
+
+
+.samll-card-nung-input {
+  display: flex;
+  align-items: center;
+  gap: 5px; 
+  margin-bottom: 6px; 
+
+}
+
+.samll-card-nung-input button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 3px; 
+  padding: 4px 8px; 
+  font-size: 13px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.samll-card-nung-input button:hover {
+  background-color: #45a049;
+  transform: scale(1.03); 
+}
+
+.samll-card-nung-input input {
+  width: 70px;
+  padding: 4px; 
+  font-size: 13px; 
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 3px; 
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+
+.small-card-history {
+  font-size: 13px;
+  color: black; 
+  text-align: left;
+  margin-top: 6px; 
+  white-space: nowrap;
+  overflow-x: auto;
+  word-wrap: break-word;
+  padding: 0 6px; 
+}
+
+.history-title{
+  color: #28a745;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+
+.notes-table thead ,.notes-table tfoot {
   background-color: #28a745;
   font-size: 14px;
   color: white;
 }
-
-
-.account-table input[type="text"] {
-  width: 80%; 
-  padding: 5px; 
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 13px; 
-  outline: none;
+.notes-table tbody{
+  background-color: #cfedd6;
 }
 
-.account-table input[type="text"]:focus{
-  border-color: #007bff;
-}
 
 .summary-row {
   font-weight: bold;
@@ -80,13 +181,13 @@
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 15px;
-  font-size: 16px;
+  padding: 8px 13px;
+  font-size: 15px;
   cursor: pointer;
   display: inline-block;
   border-radius: 5px;
   margin: 10px;
-
+  margin-left: 0;
 }
 
 .action-button:hover {
@@ -122,8 +223,7 @@
   text-align: left;
 }
 
-
-#custom-table-name, #custom-table-total-name {
+#custom-table-name {
   width: 94%;
   padding: 10px;
   margin-bottom: 15px;
@@ -131,14 +231,12 @@
   border-radius: 5px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.3s ease-in-out;
 }
 
-#custom-table-name:focus, #custom-table-total-name:focus {
+#custom-table-name:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-
 
 .custom-modal-buttons {
   display: flex;
@@ -177,5 +275,3 @@
 .custom-cancel-button:hover {
   background: #5a6268;
 }
-
-
