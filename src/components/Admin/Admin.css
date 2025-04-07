@@ -14,12 +14,14 @@ body {
 .admin-container {
   display: flex;
   flex: 1;
-  margin-top: 80px;
+  margin-top: 45px;
+  margin-left: 45px;
+  overflow: hidden;
+  
 }
 
 .content {
   flex-grow: 1;
-  margin-left: 60px;
   padding: 20px;
   transition: margin-left 0.3s ease;
 }

@@ -4,25 +4,20 @@ import Sidebar from "./Sidebar";
 import "./Admin.css";
 import "./AccountSilak.css";
 import SilakSummaryTable from "./SilakSummaryTable";
-
-const generateLightColor = () => {
-  const letters = "89ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * letters.length)];
-  }
-  const r = parseInt(color.slice(1, 3), 16);
-  const g = parseInt(color.slice(3, 5), 16);
-  const b = parseInt(color.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, 0.5)`;
-};
+// import "./ColorPickerGrid.css";
+import CustomDatePicker from "./CustomDatePicker"; 
 
 const AccountSilak = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableName, setTableName] = useState("");
   const [tables, setTables] = useState([]);
   const [cardVisible, setCardVisible] = useState({ tableIndex: null, rowIndex: null });
-  const [nangs, setNangs] = useState([]); 
+  const [nangs, setNangs] = useState([]);
+  const [baseColor, setBaseColor] = useState("#3498db");
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [accessPeriod, setAccessPeriod] = useState("regular");
+  const [customStartDate, setCustomStartDate] = useState(null); 
+  const [customEndDate, setCustomEndDate] = useState(null);   
 
   const notes = ["2,000", "500", "200", "100", "50", "20", "10", "5", "2", "1"];
 
@@ -30,24 +25,89 @@ const AccountSilak = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setTableName("");
+    setAccessPeriod("regular");
+    setCustomStartDate(null); 
+    setCustomEndDate(null);  
+  };
+
+  const lightenColor = (hex, percent) => {
+    const num = parseInt(hex.replace("#", ""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) + amt;
+    const G = ((num >> 8) & 0x00FF) + amt;
+    const B = (num & 0x0000FF) + amt;
+
+    return (
+      "#" +
+      (
+        0x1000000 +
+        (R < 255 ? (R < 0 ? 0 : R) : 255) * 0x10000 +
+        (G < 255 ? (G < 0 ? 0 : G) : 255) * 0x100 +
+        (B < 255 ? (B < 0 ? 0 : B) : 255)
+      )
+        .toString(16)
+        .slice(1)
+    );
+  };
+
+  const darkenColor = (hex, percent) => {
+    const num = parseInt(hex.replace("#", ""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) - amt;
+    const G = ((num >> 8) & 0x00FF) - amt;
+    const B = (num & 0x0000FF) - amt;
+
+    return (
+      "#" +
+      (
+        0x1000000 +
+        (R > 0 ? R : 0) * 0x10000 +
+        (G > 0 ? G : 0) * 0x100 +
+        (B > 0 ? B : 0)
+      )
+        .toString(16)
+        .slice(1)
+    );
+  };
+
+  const ensureLightColor = (hex) => {
+    const num = parseInt(hex.replace("#", ""), 16);
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    if (brightness < 180) {
+      return lightenColor(hex, 40);
+    }
+    return hex;
   };
 
   const handleSaveTable = () => {
     if (tableName.trim()) {
-      const lightColor = generateLightColor();
+      const adjustedBaseColor = ensureLightColor(baseColor);
+      const darkenedHeadingColor = darkenColor(adjustedBaseColor, 20);
+      const isColorAlreadyUsed = tables.some(
+        (table) => table.headingColor.toLowerCase() === darkenedHeadingColor.toLowerCase()
+      );
+
+      if (isColorAlreadyUsed) {
+        alert("This color is already used. Please choose a different color.");
+        return;
+      }
+
       const table = {
         tableName,
         tableTotalName: tableName,
-        headerColor: lightColor,
-        rowColor: lightColor,
-        summaryRowColor: lightColor,
+        headingColor: darkenedHeadingColor, 
+        rowColor: lightenColor(adjustedBaseColor, 30),
+        borderColor: darkenColor(adjustedBaseColor, 50),
       };
       setTables([...tables, table]);
-
-
       setNangs([...nangs, Array(notes.length).fill(0)]);
+      setSelectedColors([...selectedColors, adjustedBaseColor]);
+
+      handleCloseModal();
     }
-    handleCloseModal();
   };
 
   const handleNungChange = (tableIndex, rowIndex, value) => {
@@ -83,7 +143,7 @@ const AccountSilak = () => {
             <div className="custom-modal">
               <div className="custom-modal-content">
                 <h3>Add Table</h3>
-                <label htmlFor="custom-table-name">Table Name:</label>
+                <label htmlFor="custom-table-name">Title</label>
                 <input
                   type="text"
                   id="custom-table-name"
@@ -91,6 +151,130 @@ const AccountSilak = () => {
                   onChange={(e) => setTableName(e.target.value)}
                   placeholder="Enter table name"
                 />
+
+                {/* Color Picker - Disabled for now */}
+                {/* <ColorPickerGrid
+                  label="Background Color"
+                  selectedColor={bgColor}
+                  onChange={setBgColor}
+                />
+                <ColorPickerGrid
+                  label="Border Color"
+                  selectedColor={borderColor}
+                  onChange={setBorderColor}
+                />
+                <ColorPickerGrid
+                  label="Heading/Footer Color"
+                  selectedColor={headingColor}
+                  onChange={setHeadingColor}
+                /> */}
+
+                <div className="color-picker-group">
+                  <label>Table Base Color:</label>
+                  <input
+                    type="color"
+                    value={baseColor}
+                    onChange={(e) => setBaseColor(e.target.value)}
+                  />
+                </div>
+
+                <div className="selected-colors-list">
+                  <label>Selected Colors</label>
+                  <div className="color-square-container">
+                    {selectedColors.map((color, index) => (
+                      <div
+                        key={index}
+                        className="color-square"
+                        style={{ backgroundColor: color }}
+                      >
+                        <span className="color-label">{color}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* <div className="access-period-group">
+                  <label>Access Period</label>
+                  <select
+                    value={accessPeriod}
+                    onChange={(e) => setAccessPeriod(e.target.value)}
+                  >
+                    <option value="regular">Regular</option>
+                    <option value="month">Month</option>
+                    <option value="week">Week</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                </div> */}
+                  
+                <div className="access-period-group">
+                  <label>Access Period</label>
+                  <div className="checkbox-group">
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="regular"
+                        checked={accessPeriod === "regular"}
+                        onChange={() => setAccessPeriod("regular")}
+                      />
+                      Regular
+                    </label>
+
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="month"
+                        checked={accessPeriod === "month"}
+                        onChange={() => setAccessPeriod("month")}
+                      />
+                      Month
+                    </label>
+
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="week"
+                        checked={accessPeriod === "week"}
+                        onChange={() => setAccessPeriod("week")}
+                      />
+                      Week
+                    </label>
+
+                    <label>
+                      <input
+                        type="checkbox"
+                        value="custom"
+                        checked={accessPeriod === "custom"}
+                        onChange={() => setAccessPeriod("custom")}
+                      />
+                      Custom
+                    </label>
+                  </div>
+                </div>
+
+                {/* {accessPeriod === "custom" && (
+                  <div className="custom-date-picker-group">
+                    <label>Start Date</label>
+                    <input
+                      type="date"
+                      value={customStartDate}
+                      onChange={(e) => setCustomStartDate(e.target.value)}
+                    />
+                    <label>End Date</label>
+                    <input
+                      type="date"
+                      value={customEndDate}
+                      onChange={(e) => setCustomEndDate(e.target.value)}
+                    />
+                  </div>
+                )} */}
+
+                {accessPeriod === "custom" && (
+                  <CustomDatePicker startDate={customStartDate} endDate={customEndDate} 
+                  setStartDate={setCustomStartDate}
+                  setEndDate={setCustomEndDate}
+                  />
+                )} 
+
                 <div className="custom-modal-buttons">
                   <button className="custom-save-button" onClick={handleSaveTable}>
                     Save
@@ -106,12 +290,8 @@ const AccountSilak = () => {
           <div className="silak-table-wrapper">
             <table className="notes-table">
               <thead>
-                <tr>
-                  <th></th>
-                </tr>
-                <tr>
-                  <th>નોટ</th>
-                </tr>
+                <tr><th></th></tr>
+                <tr><th>નોટ</th></tr>
               </thead>
               <tbody>
                 {notes.map((note, index) => (
@@ -121,9 +301,7 @@ const AccountSilak = () => {
                 ))}
               </tbody>
               <tfoot>
-                <tr>
-                  <td>Total</td>
-                </tr>
+                <tr><td>Total</td></tr>
               </tfoot>
             </table>
 
@@ -131,22 +309,34 @@ const AccountSilak = () => {
               <table
                 key={tableIndex}
                 className="account-table"
-                style={{ backgroundColor: table.rowColor }}
+                style={{
+                  border: `2px solid ${table.borderColor}`,
+                  borderCollapse: "collapse",
+                  backgroundColor: table.rowColor,
+                }}
               >
-                <thead style={{ backgroundColor: table.headerColor }}>
+                <thead style={{ backgroundColor: table.headingColor }}>
                   <tr>
-                    <th colSpan="2">{table.tableName}</th>
+                    <th
+                      colSpan="2"
+                      style={{ border: `1px solid ${table.borderColor}` }}
+                    >
+                      {table.tableName}
+                    </th>
                   </tr>
                   <tr>
-                    <th>રકમ</th>
-                    <th>નંગ</th>
+                    <th style={{ border: `1px solid ${table.borderColor}` }}>રકમ</th>
+                    <th style={{ border: `1px solid ${table.borderColor}` }}>નંગ</th>
                   </tr>
                 </thead>
                 <tbody>
                   {notes.map((_, rowIndex) => (
                     <tr key={rowIndex}>
-                      <td>0</td>
-                      <td className="icon-container">
+                      <td style={{ border: `1px solid ${table.borderColor}` }}>0</td>
+                      <td
+                        className="icon-container"
+                        style={{ border: `1px solid ${table.borderColor}` }}
+                      >
                         <input
                           type="number"
                           className="nung-input"
@@ -176,15 +366,12 @@ const AccountSilak = () => {
                     </tr>
                   ))}
                 </tbody>
-                <tfoot>
+                <tfoot style={{ backgroundColor: table.headingColor }}>
                   <tr>
                     <td
                       className="summary-row"
-                      style={{ backgroundColor: table.summaryRowColor }}
-                    ></td>
-                    <td
-                      className="summary-row"
-                      style={{ backgroundColor: table.summaryRowColor }}
+                      colSpan="2"
+                      style={{ border: `1px solid ${table.borderColor}` }}
                     ></td>
                   </tr>
                 </tfoot>

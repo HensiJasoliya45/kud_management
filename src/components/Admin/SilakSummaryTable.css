@@ -1,19 +1,30 @@
 .summary-table-container {
     width: 100%;
-    overflow-x: auto; 
+    overflow: hidden;
 }
 
 .tables-row {
     display: flex;
-    gap: 8px; 
-    flex-wrap: nowrap; 
+    justify-content: space-between;
     align-items: flex-start;
+}
+
+.left-side {
+    display: flex;
+    gap: 10px; 
+}
+
+.right-side {
+    max-height: 220px;  
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-right: 130px;
 }
 
 .summary-table {
     border-collapse: collapse;
     text-align: center;
-    width: auto; 
+    width: auto;
     table-layout: auto;
 }
 
@@ -22,12 +33,13 @@
     padding: 6px 8px;
     border: 1px solid whitesmoke;
     font-size: 12px;
-    white-space: nowrap; 
-    width: auto; 
+    white-space: nowrap;
+    width: auto;
 }
 
 .summary-table td {
     font-size: 14px;
+    text-align: left; 
 }
 
 .summary-table th {
@@ -39,6 +51,19 @@
 .summary-table td {
     background-color: #c8e7f0;
     color: black;
+}
+
+
+.summary-table td:first-child {
+    text-align: left;
+}
+
+.summary-table td:nth-child(2) {
+    text-align: right;
+}
+
+.summary-table th:first-child {
+    text-align: left;
 }
 
 .small-table-1,

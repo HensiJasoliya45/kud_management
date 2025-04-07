@@ -40,7 +40,7 @@
 .account-table thead {
   background-color: #007bff;
   font-size: 14px;
-  color: #333;
+  color: white;
   font-weight: bold;
 }
 
@@ -91,8 +91,6 @@
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 100;
-
-
   animation: slideIn 0.75s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
 @keyframes slideIn {
@@ -169,7 +167,6 @@
 .notes-table tbody{
   background-color: #cfedd6;
 }
-
 
 .summary-row {
   font-weight: bold;
@@ -275,3 +272,140 @@
 .custom-cancel-button:hover {
   background: #5a6268;
 }
+
+.color-picker-group {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  margin-bottom: 1rem; 
+}
+
+.color-picker-group label {
+  min-width: 150px; 
+  font-weight: 500;
+}
+
+.color-picker-group input[type="color"] {
+  width: 50px;
+  height: 35px;
+  padding: 2px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.color-picker-group input[type="color"]:hover,
+.color-picker-group input[type="color"]:focus {
+  border-color: #3498db; 
+  outline: none;
+}
+
+.selected-colors-list {
+  margin: 5px 0;
+}
+
+.selected-colors-list label{
+  font-weight: 500;
+  font-size: 17px;
+}
+
+.color-square-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;  
+  
+}
+
+.color-square {
+  width: 40px;     
+  height: 40px;    
+  border-radius: 4px;
+  position: relative;
+}
+
+.color-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  padding: 2px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.access-period-group {
+  margin-bottom: 10px;
+}
+
+.access-period-group label {
+  font-weight: bold;
+  margin-bottom: 3px;
+  display: block;
+  color: #333;
+}
+
+/* .access-period-group select {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  color: #333;
+  margin-bottom: 8px;
+} */
+
+.access-period-group label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: row; 
+  gap: 10px; 
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.checkbox-group input {
+  margin-right: 8px; 
+}
+
+ .custom-date-picker-group {
+  display: flex;
+  gap: 10px; 
+  margin-top: 8px;
+}
+.custom-date-picker-group label{
+  font-size: 14px;
+}
+/*
+.custom-date-picker-group label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 3px;
+  width: 100%;
+}
+
+.custom-date-picker-group input[type="date"] {
+  width: 48%; 
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+} */

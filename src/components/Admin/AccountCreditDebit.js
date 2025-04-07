@@ -26,8 +26,8 @@ const AccountCreditDebit = () => {
       name: "AB",
       color: getRandomLightColor(),
       rows: [
-        ["Opening", 2, "", ""],
-        ["", 15000, "", 8000],
+        ["Opening", "", "", ""],
+        ["", "", "", ""],
       ],
     },
   ]);
@@ -145,6 +145,14 @@ const AccountCreditDebit = () => {
                                     onClick={() => toggleRowAddState(tableIndex)}
                                   >
                                     <i className="fas fa-chevron-right row-icon-right"></i>
+                                    {rowAddOpenState[tableIndex] && (
+                                      <button
+                                        onClick={() => addNewRow(tableIndex)}
+                                        className="add-row-btn"
+                                      >
+                                        <span className="plus-icon">+</span>
+                                      </button>
+                                    )}
                                   </span>
                                 )}
                             </div>
@@ -165,22 +173,6 @@ const AccountCreditDebit = () => {
               </div>
             ))}
           </div>
-
-          {/* Add Row Button */}
-          {Object.keys(rowAddOpenState).map((tableIndex) => {
-            if (rowAddOpenState[tableIndex]) {
-              return (
-                <button
-                  key={tableIndex}
-                  onClick={() => addNewRow(parseInt(tableIndex))}
-                  className="add-row-btn"
-                >
-                  <span className="plus-icon">+</span>
-                </button>
-              );
-            }
-            return null;
-          })}
         </div>
       </div>
 
