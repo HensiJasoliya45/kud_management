@@ -13,7 +13,6 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
 
   return (
     <div className="custom-date-picker-group">
-      <label>Choose Date Range</label>
       <DatePicker
         selected={startDate}
         onChange={handleDateChange} 
@@ -22,6 +21,7 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
         selectsRange
         inline
         dateFormat="yyyy/MM/dd"
+        shouldCloseOnSelect={false} 
       />
     </div>
   );

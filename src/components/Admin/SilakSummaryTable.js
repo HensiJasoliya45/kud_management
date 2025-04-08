@@ -18,14 +18,28 @@ const SilakSummaryTable = () => {
           <table className="summary-table small-table-2">
             <tbody>
               <tr><th>કુલ સિલક</th><th>0</th></tr>
-              <tr><td>TB</td><td>800</td></tr>
-              <tr><td>AB</td><td>2(D24)</td></tr>
-              <tr><td>SB</td><td>2(D24)</td></tr>
+              <tr>
+                <td>
+                  <input type="checkbox" id="checkbox-1" />TB 
+                </td>
+                <td>800</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" id="checkbox-2" />AB
+                </td>
+                <td>2(D24)</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" id="checkbox-3" />SB
+                </td>
+                <td>2(D24)</td>
+              </tr>
             </tbody>
           </table>
         </div>
 
-       
         <div className="right-side">
           <table className="summary-table normal-table">
             <tbody>

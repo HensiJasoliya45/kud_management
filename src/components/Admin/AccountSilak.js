@@ -6,6 +6,7 @@ import "./AccountSilak.css";
 import SilakSummaryTable from "./SilakSummaryTable";
 // import "./ColorPickerGrid.css";
 import CustomDatePicker from "./CustomDatePicker"; 
+import {lightenColor,darkenColor,ensureLightColor} from "./ColorUtil"
 
 const AccountSilak = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,8 +19,19 @@ const AccountSilak = () => {
   const [accessPeriod, setAccessPeriod] = useState("regular");
   const [customStartDate, setCustomStartDate] = useState(null); 
   const [customEndDate, setCustomEndDate] = useState(null);   
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  const notes = ["2,000", "500", "200", "100", "50", "20", "10", "5", "2", "1"];
+  const notes = [ "500", "200", "100", "50", "20", "10", "5", "2", "1","Other"];
+
+  const handleCheckboxChange = (value) => {
+    setAccessPeriod(value);
+
+    if (value === "custom") {
+      setIsDatePickerOpen(true);  
+    } else {
+      setIsDatePickerOpen(false);  
+    }
+  };
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => {
@@ -28,58 +40,6 @@ const AccountSilak = () => {
     setAccessPeriod("regular");
     setCustomStartDate(null); 
     setCustomEndDate(null);  
-  };
-
-  const lightenColor = (hex, percent) => {
-    const num = parseInt(hex.replace("#", ""), 16);
-    const amt = Math.round(2.55 * percent);
-    const R = (num >> 16) + amt;
-    const G = ((num >> 8) & 0x00FF) + amt;
-    const B = (num & 0x0000FF) + amt;
-
-    return (
-      "#" +
-      (
-        0x1000000 +
-        (R < 255 ? (R < 0 ? 0 : R) : 255) * 0x10000 +
-        (G < 255 ? (G < 0 ? 0 : G) : 255) * 0x100 +
-        (B < 255 ? (B < 0 ? 0 : B) : 255)
-      )
-        .toString(16)
-        .slice(1)
-    );
-  };
-
-  const darkenColor = (hex, percent) => {
-    const num = parseInt(hex.replace("#", ""), 16);
-    const amt = Math.round(2.55 * percent);
-    const R = (num >> 16) - amt;
-    const G = ((num >> 8) & 0x00FF) - amt;
-    const B = (num & 0x0000FF) - amt;
-
-    return (
-      "#" +
-      (
-        0x1000000 +
-        (R > 0 ? R : 0) * 0x10000 +
-        (G > 0 ? G : 0) * 0x100 +
-        (B > 0 ? B : 0)
-      )
-        .toString(16)
-        .slice(1)
-    );
-  };
-
-  const ensureLightColor = (hex) => {
-    const num = parseInt(hex.replace("#", ""), 16);
-    const r = (num >> 16) & 255;
-    const g = (num >> 8) & 255;
-    const b = num & 255;
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    if (brightness < 180) {
-      return lightenColor(hex, 40);
-    }
-    return hex;
   };
 
   const handleSaveTable = () => {
@@ -127,6 +87,14 @@ const AccountSilak = () => {
     }
   };
 
+  // const openDatePickerPopup = () => {
+  //   setIsDatePickerOpen(true);  
+  // };
+
+  // const closeDatePickerPopup = () => {
+  //   setIsDatePickerOpen(false); 
+  // };
+
   return (
     <div className="admin-dashboard">
       <Header />
@@ -170,7 +138,7 @@ const AccountSilak = () => {
                 /> */}
 
                 <div className="color-picker-group">
-                  <label>Table Base Color:</label>
+                  <label>Table Base Color</label>
                   <input
                     type="color"
                     value={baseColor}
@@ -187,7 +155,7 @@ const AccountSilak = () => {
                         className="color-square"
                         style={{ backgroundColor: color }}
                       >
-                        <span className="color-label">{color}</span>
+                        {/* <span className="color-label">{color}</span> */}
                       </div>
                     ))}
                   </div>
@@ -214,7 +182,7 @@ const AccountSilak = () => {
                         type="checkbox"
                         value="regular"
                         checked={accessPeriod === "regular"}
-                        onChange={() => setAccessPeriod("regular")}
+                        onChange={() => handleCheckboxChange("regular")}
                       />
                       Regular
                     </label>
@@ -224,7 +192,7 @@ const AccountSilak = () => {
                         type="checkbox"
                         value="month"
                         checked={accessPeriod === "month"}
-                        onChange={() => setAccessPeriod("month")}
+                        onChange={() => handleCheckboxChange("month")}
                       />
                       Month
                     </label>
@@ -234,7 +202,7 @@ const AccountSilak = () => {
                         type="checkbox"
                         value="week"
                         checked={accessPeriod === "week"}
-                        onChange={() => setAccessPeriod("week")}
+                        onChange={() => handleCheckboxChange("week")}
                       />
                       Week
                     </label>
@@ -244,10 +212,25 @@ const AccountSilak = () => {
                         type="checkbox"
                         value="custom"
                         checked={accessPeriod === "custom"}
-                        onChange={() => setAccessPeriod("custom")}
+                        onChange={() => handleCheckboxChange("custom")}
+                        // onChange={() => {
+                        //   setAccessPeriod("custom");
+                        //   openDatePickerPopup();  // Open date picker when "Custom" is selected
+                        // }}
+                        // checked={accessPeriod === "custom"}
+                        // onChange={() => setAccessPeriod("custom")}
                       />
                       Custom
                     </label>
+                    <div className={`date-picker-popup ${isDatePickerOpen ? "active" : ""}`}>
+                    <button className="close-popup-btn" onClick={() => setIsDatePickerOpen(false)}>Select Date Range<i className="fas fa-times"></i> </button>
+                    <CustomDatePicker
+                      startDate={customStartDate}
+                      endDate={customEndDate}
+                      setStartDate={setCustomStartDate}
+                      setEndDate={setCustomEndDate}
+                     />
+                    </div>
                   </div>
                 </div>
 
@@ -268,12 +251,30 @@ const AccountSilak = () => {
                   </div>
                 )} */}
 
-                {accessPeriod === "custom" && (
+                {/* {accessPeriod === "custom" && (
                   <CustomDatePicker startDate={customStartDate} endDate={customEndDate} 
                   setStartDate={setCustomStartDate}
                   setEndDate={setCustomEndDate}
                   />
-                )} 
+                )}  */}
+
+                 
+              {/* {isDatePickerOpen && (
+                <div className="date-picker-popup">
+                 <div className="popup-content">
+                   <h3>Select Date Range</h3>
+                    <CustomDatePicker
+                      startDate={customStartDate}
+                      endDate={customEndDate}
+                      setStartDate={setCustomStartDate}
+                      setEndDate={setCustomEndDate}
+                       />
+                     <button className="close-popup-btn" onClick={closeDatePickerPopup}>
+                      Close
+                    </button>
+                  </div>
+                 </div>
+                )} */}
 
                 <div className="custom-modal-buttons">
                   <button className="custom-save-button" onClick={handleSaveTable}>
@@ -286,6 +287,7 @@ const AccountSilak = () => {
               </div>
             </div>
           )}
+
 
           <div className="silak-table-wrapper">
             <table className="notes-table">
@@ -340,6 +342,9 @@ const AccountSilak = () => {
                         <input
                           type="number"
                           className="nung-input"
+                          style={{
+                            backgroundColor: table.rowColor,
+                          }}
                           value={nangs?.[tableIndex]?.[rowIndex] || ""}
                           onChange={(e) =>
                             handleNungChange(tableIndex, rowIndex, e.target.value)
